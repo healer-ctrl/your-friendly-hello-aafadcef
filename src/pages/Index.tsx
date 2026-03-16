@@ -1,12 +1,15 @@
 import { useState, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { companies, type CompanyData } from "@/data/mockFinancials";
 import FinanceCard from "@/components/FinanceCard";
-import CompanyDetailPage from "@/components/CompanyDetailPage";
+import FinancialReportSheet from "@/components/FinancialReportSheet";
+import CompanyDeepDive from "@/components/CompanyDeepDive";
 
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedCompany, setSelectedCompany] = useState<CompanyData | null>(null);
+  const [reportCompany, setReportCompany] = useState<CompanyData | null>(null);
+  const [deepDiveCompany, setDeepDiveCompany] = useState<CompanyData | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
@@ -48,7 +51,8 @@ const Index = () => {
             key={company.id}
             company={company}
             index={activeIndex}
-            onReadMore={() => setSelectedCompany(company)}
+            onReadReport={() => setReportCompany(company)}
+            onSwipeLeft={() => setDeepDiveCompany(company)}
           />
         ))}
       </div>
@@ -70,12 +74,22 @@ const Index = () => {
         ))}
       </div>
 
-      {/* Detail page overlay */}
+      {/* Financial Report Sheet */}
       <AnimatePresence>
-        {selectedCompany && (
-          <CompanyDetailPage
-            company={selectedCompany}
-            onBack={() => setSelectedCompany(null)}
+        {reportCompany && (
+          <FinancialReportSheet
+            company={reportCompany}
+            onClose={() => setReportCompany(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Company Deep Dive */}
+      <AnimatePresence>
+        {deepDiveCompany && (
+          <CompanyDeepDive
+            company={deepDiveCompany}
+            onBack={() => setDeepDiveCompany(null)}
           />
         )}
       </AnimatePresence>

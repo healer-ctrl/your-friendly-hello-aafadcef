@@ -1,24 +1,94 @@
-import { motion } from "framer-motion";
-import { TrendingUp, TrendingDown, ExternalLink } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
+import { TrendingUp, TrendingDown, FileText, Bookmark } from "lucide-react";
 import type { CompanyData } from "@/data/mockFinancials";
 
 interface FinanceCardProps {
   company: CompanyData;
   index: number;
-  onReadMore?: () => void;
+  onReadReport?: () => void;
+  onSwipeLeft?: () => void;
 }
 
-const FinanceCard = ({ company, index, onReadMore }: FinanceCardProps) => {
+const FinanceCard = ({ company, index, onReadReport, onSwipeLeft }: FinanceCardProps) => {
   const isPositive = company.changePercent >= 0;
+  const [bookmarked, setBookmarked] = useState(false);
+  const [showBookmarkAnim, setShowBookmarkAnim] = useState(false);
+  const x = useMotionValue(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Visual feedback during drag
+  const leftIndicatorOpacity = useTransform(x, [-120, -60, 0], [1, 0.5, 0]);
+  const rightIndicatorOpacity = useTransform(x, [0, 60, 120], [0, 0.5, 1]);
+  const rotate = useTransform(x, [-200, 0, 200], [-5, 0, 5]);
+
+  const handleDragEnd = (_: any, info: { offset: { x: number }; velocity: { x: number } }) => {
+    const swipeThreshold = 80;
+    const velocityThreshold = 300;
+
+    if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
+      // Swipe LEFT → Deep Dive
+      onSwipeLeft?.();
+    } else if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
+      // Swipe RIGHT → Bookmark
+      setBookmarked(true);
+      setShowBookmarkAnim(true);
+      setTimeout(() => setShowBookmarkAnim(false), 1200);
+    }
+  };
 
   return (
-    <div className="h-screen w-full snap-start flex items-center justify-center px-5 py-8">
+    <div className="h-screen w-full snap-start flex items-center justify-center px-5 py-8 relative overflow-hidden">
+      {/* Swipe indicators */}
       <motion.div
+        style={{ opacity: leftIndicatorOpacity }}
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-1"
+      >
+        <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+          <FileText className="w-4 h-4 text-primary" />
+        </div>
+        <span className="text-[10px] text-primary font-medium">Deep Dive</span>
+      </motion.div>
+
+      <motion.div
+        style={{ opacity: rightIndicatorOpacity }}
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center gap-1"
+      >
+        <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+          <Bookmark className="w-4 h-4 text-primary" />
+        </div>
+        <span className="text-[10px] text-primary font-medium">Save</span>
+      </motion.div>
+
+      {/* Bookmark animation overlay */}
+      <AnimatePresence>
+        {showBookmarkAnim && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ type: "spring", damping: 12 }}
+            className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
+          >
+            <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center">
+              <Bookmark className="w-10 h-10 text-primary fill-primary" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        ref={cardRef}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.4}
+        onDragEnd={handleDragEnd}
+        style={{ x, rotate }}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.5 }}
-        className="w-full max-w-[375px] flex flex-col gap-5"
+        className="w-full max-w-[375px] flex flex-col gap-5 touch-pan-y"
       >
         {/* Top pill — quarter */}
         <motion.div
@@ -26,11 +96,14 @@ const FinanceCard = ({ company, index, onReadMore }: FinanceCardProps) => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15, duration: 0.3 }}
           viewport={{ once: true }}
-          className="self-start"
+          className="self-start flex items-center gap-2"
         >
           <span className="text-xs font-medium tracking-widest uppercase px-3 py-1.5 rounded-full border border-border bg-secondary text-muted-foreground">
             {company.quarter}
           </span>
+          {bookmarked && (
+            <Bookmark className="w-3.5 h-3.5 text-primary fill-primary" />
+          )}
         </motion.div>
 
         {/* Company header */}
@@ -103,19 +176,23 @@ const FinanceCard = ({ company, index, onReadMore }: FinanceCardProps) => {
           ))}
         </motion.div>
 
-        {/* Read more button */}
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        {/* Read Full Report link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ delay: 0.45, duration: 0.3 }}
           viewport={{ once: true }}
-          whileTap={{ scale: 0.97 }}
-          onClick={onReadMore}
-          className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all hover:brightness-110 active:brightness-90"
+          className="flex items-center justify-between"
         >
-          Read Full Report
-          <ExternalLink className="w-4 h-4" />
-        </motion.button>
+          <button
+            onClick={onReadReport}
+            className="flex items-center gap-1.5 text-xs text-primary font-medium hover:underline underline-offset-2 transition-all"
+          >
+            <FileText className="w-3.5 h-3.5" />
+            Read Full Report
+          </button>
+          <span className="text-[10px] text-muted-foreground/50">← swipe for deep dive</span>
+        </motion.div>
 
         {/* Scroll indicator */}
         <div className="flex justify-center pt-2">
