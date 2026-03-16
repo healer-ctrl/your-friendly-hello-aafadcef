@@ -5,9 +5,10 @@ import type { CompanyData } from "@/data/mockFinancials";
 interface FinanceCardProps {
   company: CompanyData;
   index: number;
+  onReadMore?: () => void;
 }
 
-const FinanceCard = ({ company, index }: FinanceCardProps) => {
+const FinanceCard = ({ company, index, onReadMore }: FinanceCardProps) => {
   const isPositive = company.changePercent >= 0;
 
   return (
@@ -109,6 +110,7 @@ const FinanceCard = ({ company, index }: FinanceCardProps) => {
           transition={{ delay: 0.45, duration: 0.3 }}
           viewport={{ once: true }}
           whileTap={{ scale: 0.97 }}
+          onClick={onReadMore}
           className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all hover:brightness-110 active:brightness-90"
         >
           Read Full Report
