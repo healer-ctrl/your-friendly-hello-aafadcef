@@ -5,9 +5,10 @@ import type { CompanyData } from "@/data/mockFinancials";
 interface FinanceCardProps {
   company: CompanyData;
   index: number;
+  onReadMore?: () => void;
 }
 
-const FinanceCard = ({ company, index }: FinanceCardProps) => {
+const FinanceCard = ({ company, index, onReadMore }: FinanceCardProps) => {
   const isPositive = company.changePercent >= 0;
 
   return (
