@@ -1,10 +1,12 @@
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { companies } from "@/data/mockFinancials";
+import { companies, type CompanyData } from "@/data/mockFinancials";
 import FinanceCard from "@/components/FinanceCard";
+import CompanyDetailPage from "@/components/CompanyDetailPage";
 
 const Index = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedCompany, setSelectedCompany] = useState<CompanyData | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = useCallback(() => {
@@ -41,8 +43,13 @@ const Index = () => {
         onScroll={handleScroll}
         className="snap-container h-screen overflow-y-scroll snap-y snap-mandatory"
       >
-        {companies.map((company, index) => (
-          <FinanceCard key={company.id} company={company} index={activeIndex} />
+        {companies.map((company) => (
+          <FinanceCard
+            key={company.id}
+            company={company}
+            index={activeIndex}
+            onReadMore={() => setSelectedCompany(company)}
+          />
         ))}
       </div>
 
@@ -62,6 +69,16 @@ const Index = () => {
           />
         ))}
       </div>
+
+      {/* Detail page overlay */}
+      <AnimatePresence>
+        {selectedCompany && (
+          <CompanyDetailPage
+            company={selectedCompany}
+            onBack={() => setSelectedCompany(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
