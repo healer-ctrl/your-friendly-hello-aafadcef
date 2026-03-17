@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { ArrowLeft, Building2, TrendingUp, TrendingDown, BarChart3, Grid3X3, Newspaper, BookOpen } from "lucide-react";
 import type { CompanyData } from "@/data/mockFinancials";
 import { deepDiveData } from "@/data/companyDeepDive";
