@@ -120,6 +120,7 @@ export const companies: CompanyData[] = [
     changePercent: 5.1,
     accentColor: "38 90% 55%",
     categories: ["us", "tech"],
+    domain: "amazon.com",
   },
   {
     id: "hdfc",
