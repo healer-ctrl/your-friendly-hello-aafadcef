@@ -29,11 +29,9 @@ const FinanceCard = ({ company, index, totalCount, onReadReport, onSwipeLeft, on
     const velocityThreshold = 300;
 
     if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
-      // Swipe LEFT → Deep Dive
       onSwipeLeft?.();
     } else if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
-      // Swipe RIGHT → Bookmark
-      setBookmarked(true);
+      onBookmark?.();
       setShowBookmarkAnim(true);
       setTimeout(() => setShowBookmarkAnim(false), 1200);
     }
