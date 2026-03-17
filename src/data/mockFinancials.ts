@@ -13,6 +13,7 @@ export interface CompanyData {
   changePercent: number;
   accentColor: string;
   categories: CompanyCategory[];
+  domain: string;
 }
 
 export const companies: CompanyData[] = [
