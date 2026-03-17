@@ -197,7 +197,7 @@ const FinanceCard = ({ company, index, totalCount, onReadReport, onSwipeLeft, on
         {/* Scroll indicator */}
         <div className="flex justify-center pt-2">
           <div className="flex gap-1.5">
-            {Array.from({ length: 10 }).map((_, i) => (
+            {Array.from({ length: totalCount }).map((_, i) => (
               <div
                 key={i}
                 className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
