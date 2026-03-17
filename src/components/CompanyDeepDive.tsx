@@ -42,11 +42,20 @@ const CompanyDeepDive = ({ company, onBack }: CompanyDeepDiveProps) => {
 
   return (
     <motion.div
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={{ left: 0, right: 0.6 }}
+      style={{ x: dragX, opacity: pageOpacity }}
+      onDragEnd={(_, info) => {
+        if (info.offset.x > 100 || info.velocity.x > 400) {
+          onBack();
+        }
+      }}
       initial={{ x: "100%" }}
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
       transition={{ type: "spring", damping: 28, stiffness: 280 }}
-      className="fixed inset-0 z-[60] bg-background overflow-y-auto"
+      className="fixed inset-0 z-[60] bg-background overflow-y-auto touch-pan-y"
     >
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-xl border-b border-border/50">
