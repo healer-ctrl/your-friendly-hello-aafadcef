@@ -150,6 +150,7 @@ export const companies: CompanyData[] = [
     changePercent: 7.3,
     accentColor: "85 75% 50%",
     categories: ["us", "tech"],
+    domain: "nvidia.com",
   },
   {
     id: "googl",
