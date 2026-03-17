@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 import { TrendingUp, TrendingDown, FileText, Bookmark } from "lucide-react";
 import type { CompanyData } from "@/data/mockFinancials";
+import CompanyLogo from "@/components/CompanyLogo";
 
 interface FinanceCardProps {
   company: CompanyData;
