@@ -106,7 +106,7 @@ export const companies: CompanyData[] = [
     quarter: "Q4 2025",
     changePercent: 5.1,
     accentColor: "38 90% 55%",
-  },
+    categories: ["us", "tech"],
   {
     id: "hdfc",
     name: "HDFC Bank",
