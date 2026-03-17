@@ -62,13 +62,11 @@
   }
 }
 
-/* Hide scrollbar for snap scroll */
-.snap-container::-webkit-scrollbar,
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.snap-container,
-.no-scrollbar {
-  -ms-overflow-style: none;
+/* Global scrollbar removal */
+* {
   scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+  display: none;
 }
