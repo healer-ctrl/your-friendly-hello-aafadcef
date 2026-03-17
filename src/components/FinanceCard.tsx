@@ -6,13 +6,15 @@ import type { CompanyData } from "@/data/mockFinancials";
 interface FinanceCardProps {
   company: CompanyData;
   index: number;
+  totalCount: number;
   onReadReport?: () => void;
   onSwipeLeft?: () => void;
+  onBookmark?: () => void;
+  isBookmarked?: boolean;
 }
 
-const FinanceCard = ({ company, index, onReadReport, onSwipeLeft }: FinanceCardProps) => {
+const FinanceCard = ({ company, index, totalCount, onReadReport, onSwipeLeft, onBookmark, isBookmarked = false }: FinanceCardProps) => {
   const isPositive = company.changePercent >= 0;
-  const [bookmarked, setBookmarked] = useState(false);
   const [showBookmarkAnim, setShowBookmarkAnim] = useState(false);
   const x = useMotionValue(0);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -27,11 +29,9 @@ const FinanceCard = ({ company, index, onReadReport, onSwipeLeft }: FinanceCardP
     const velocityThreshold = 300;
 
     if (info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) {
-      // Swipe LEFT → Deep Dive
       onSwipeLeft?.();
     } else if (info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) {
-      // Swipe RIGHT → Bookmark
-      setBookmarked(true);
+      onBookmark?.();
       setShowBookmarkAnim(true);
       setTimeout(() => setShowBookmarkAnim(false), 1200);
     }
@@ -101,7 +101,7 @@ const FinanceCard = ({ company, index, onReadReport, onSwipeLeft }: FinanceCardP
           <span className="text-xs font-medium tracking-widest uppercase px-3 py-1.5 rounded-full border border-border bg-secondary text-muted-foreground">
             {company.quarter}
           </span>
-          {bookmarked && (
+          {isBookmarked && (
             <Bookmark className="w-3.5 h-3.5 text-primary fill-primary" />
           )}
         </motion.div>
@@ -197,7 +197,7 @@ const FinanceCard = ({ company, index, onReadReport, onSwipeLeft }: FinanceCardP
         {/* Scroll indicator */}
         <div className="flex justify-center pt-2">
           <div className="flex gap-1.5">
-            {Array.from({ length: 10 }).map((_, i) => (
+            {Array.from({ length: totalCount }).map((_, i) => (
               <div
                 key={i}
                 className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${

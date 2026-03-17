@@ -1,3 +1,5 @@
+export type CompanyCategory = "india" | "us" | "tech" | "banking";
+
 export interface CompanyData {
   id: string;
   name: string;
@@ -10,6 +12,7 @@ export interface CompanyData {
   quarter: string;
   changePercent: number;
   accentColor: string;
+  categories: CompanyCategory[];
 }
 
 export const companies: CompanyData[] = [
@@ -25,6 +28,7 @@ export const companies: CompanyData[] = [
     quarter: "Q1 FY2026",
     changePercent: 2.4,
     accentColor: "174 100% 50%",
+    categories: ["us", "tech"],
   },
   {
     id: "reliance",
@@ -38,6 +42,7 @@ export const companies: CompanyData[] = [
     quarter: "Q3 FY2026",
     changePercent: 1.1,
     accentColor: "220 80% 60%",
+    categories: ["india"],
   },
   {
     id: "infy",
@@ -51,6 +56,7 @@ export const companies: CompanyData[] = [
     quarter: "Q3 FY2026",
     changePercent: 3.8,
     accentColor: "200 70% 55%",
+    categories: ["india", "tech"],
   },
   {
     id: "tsla",
@@ -64,6 +70,7 @@ export const companies: CompanyData[] = [
     quarter: "Q4 2025",
     changePercent: -1.2,
     accentColor: "0 72% 56%",
+    categories: ["us"],
   },
   {
     id: "msft",
@@ -77,6 +84,7 @@ export const companies: CompanyData[] = [
     quarter: "Q2 FY2026",
     changePercent: 4.2,
     accentColor: "174 100% 50%",
+    categories: ["us", "tech"],
   },
   {
     id: "tcs",
@@ -90,6 +98,7 @@ export const companies: CompanyData[] = [
     quarter: "Q3 FY2026",
     changePercent: 0.8,
     accentColor: "280 60% 55%",
+    categories: ["india", "tech"],
   },
   {
     id: "amzn",
@@ -103,6 +112,7 @@ export const companies: CompanyData[] = [
     quarter: "Q4 2025",
     changePercent: 5.1,
     accentColor: "38 90% 55%",
+    categories: ["us", "tech"],
   },
   {
     id: "hdfc",
@@ -116,6 +126,7 @@ export const companies: CompanyData[] = [
     quarter: "Q3 FY2026",
     changePercent: -0.3,
     accentColor: "210 65% 50%",
+    categories: ["india", "banking"],
   },
   {
     id: "nvda",
@@ -129,6 +140,7 @@ export const companies: CompanyData[] = [
     quarter: "Q4 FY2026",
     changePercent: 7.3,
     accentColor: "85 75% 50%",
+    categories: ["us", "tech"],
   },
   {
     id: "googl",
@@ -142,5 +154,6 @@ export const companies: CompanyData[] = [
     quarter: "Q4 2025",
     changePercent: 2.9,
     accentColor: "4 80% 55%",
+    categories: ["us", "tech"],
   },
 ];
