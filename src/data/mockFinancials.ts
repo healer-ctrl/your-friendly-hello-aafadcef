@@ -75,6 +75,7 @@ export const companies: CompanyData[] = [
     changePercent: -1.2,
     accentColor: "0 72% 56%",
     categories: ["us"],
+    domain: "tesla.com",
   },
   {
     id: "msft",
