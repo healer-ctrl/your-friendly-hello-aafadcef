@@ -155,4 +155,5 @@ export const companies: CompanyData[] = [
     changePercent: 2.9,
     accentColor: "4 80% 55%",
     categories: ["us", "tech"],
+  },
 ];
