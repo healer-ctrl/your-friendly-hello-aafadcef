@@ -30,6 +30,7 @@ export const companies: CompanyData[] = [
     changePercent: 2.4,
     accentColor: "174 100% 50%",
     categories: ["us", "tech"],
+    domain: "apple.com",
   },
   {
     id: "reliance",
