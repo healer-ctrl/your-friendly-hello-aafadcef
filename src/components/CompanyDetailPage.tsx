@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, TrendingUp, TrendingDown, ExternalLink, Newspaper } from "lucide-react";
 import type { CompanyData } from "@/data/mockFinancials";
 import { companyDetails } from "@/data/companyDetails";
+import CompanyLogo from "@/components/CompanyLogo";
 
 interface CompanyDetailPageProps {
   company: CompanyData;
