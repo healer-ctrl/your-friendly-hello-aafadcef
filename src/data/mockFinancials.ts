@@ -41,7 +41,7 @@ export const companies: CompanyData[] = [
     quarter: "Q3 FY2026",
     changePercent: 1.1,
     accentColor: "220 80% 60%",
-  },
+    categories: ["india"],
   {
     id: "infy",
     name: "Infosys",
