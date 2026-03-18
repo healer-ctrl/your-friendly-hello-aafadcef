@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useMemo } from "react";
+import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { companies, type CompanyData, type CompanyCategory } from "@/data/mockFinancials";
 import FinanceCard from "@/components/FinanceCard";
@@ -27,6 +27,53 @@ const Index = () => {
   const [deepDiveCompany, setDeepDiveCompany] = useState<CompanyData | null>(null);
   const [detailCompany, setDetailCompany] = useState<CompanyData | null>(null);
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
+
+  // Push/pop history state for deep dive & detail overlays so back button closes them
+  const openDeepDive = useCallback((company: CompanyData) => {
+    window.history.pushState({ overlay: "deepDive" }, "");
+    setDeepDiveCompany(company);
+  }, []);
+
+  const closeDeepDive = useCallback(() => {
+    setDeepDiveCompany((prev) => {
+      if (prev) {
+        // Only go back if we actually pushed state for this overlay
+        if (window.history.state?.overlay === "deepDive") {
+          window.history.back();
+        }
+      }
+      return null;
+    });
+  }, []);
+
+  const openDetail = useCallback((company: CompanyData) => {
+    window.history.pushState({ overlay: "detail" }, "");
+    setDetailCompany(company);
+  }, []);
+
+  const closeDetail = useCallback(() => {
+    setDetailCompany((prev) => {
+      if (prev) {
+        if (window.history.state?.overlay === "detail") {
+          window.history.back();
+        }
+      }
+      return null;
+    });
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      // When back is pressed, close whichever overlay is open
+      if (deepDiveCompany) {
+        setDeepDiveCompany(null);
+      } else if (detailCompany) {
+        setDetailCompany(null);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [deepDiveCompany, detailCompany]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const filteredCompanies = useMemo(() => {
@@ -114,7 +161,7 @@ const Index = () => {
                 key={company.id}
                 company={company}
                 onReadReport={() => setReportCompany(company)}
-                onSwipeLeft={() => setDeepDiveCompany(company)}
+                onSwipeLeft={() => openDeepDive(company)}
                 onBookmark={() => toggleBookmark(company.id)}
                 isBookmarked={bookmarkedIds.has(company.id)}
               />
@@ -144,14 +191,14 @@ const Index = () => {
       {activeTab === "bookmarks" && (
         <BookmarksTab
           bookmarkedCompanies={bookmarkedCompanies}
-          onSelectCompany={setDetailCompany}
+          onSelectCompany={openDetail}
           onRemoveBookmark={(id) => toggleBookmark(id)}
         />
       )}
 
       {/* Search tab */}
       {activeTab === "search" && (
-        <SearchTab onSelectCompany={setDetailCompany} />
+        <SearchTab onSelectCompany={openDetail} />
       )}
 
       {/* Bottom nav */}
@@ -176,7 +223,7 @@ const Index = () => {
         {deepDiveCompany && (
           <CompanyDeepDive
             company={deepDiveCompany}
-            onBack={() => setDeepDiveCompany(null)}
+            onBack={closeDeepDive}
           />
         )}
       </AnimatePresence>
@@ -186,7 +233,7 @@ const Index = () => {
         {detailCompany && (
           <CompanyDetailPage
             company={detailCompany}
-            onBack={() => setDetailCompany(null)}
+            onBack={closeDetail}
           />
         )}
       </AnimatePresence>
