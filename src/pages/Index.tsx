@@ -161,7 +161,7 @@ const Index = () => {
                 key={company.id}
                 company={company}
                 onReadReport={() => setReportCompany(company)}
-                onSwipeLeft={() => setDeepDiveCompany(company)}
+                onSwipeLeft={() => openDeepDive(company)}
                 onBookmark={() => toggleBookmark(company.id)}
                 isBookmarked={bookmarkedIds.has(company.id)}
               />
