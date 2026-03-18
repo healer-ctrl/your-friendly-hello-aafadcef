@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { X } from "lucide-react";
 import type { CompanyData } from "@/data/mockFinancials";
 import { deepDiveData } from "@/data/companyDeepDive";
@@ -10,9 +11,21 @@ interface FinancialReportSheetProps {
 
 const FinancialReportSheet = ({ company, onClose }: FinancialReportSheetProps) => {
   const data = deepDiveData[company.id];
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const dragY = useMotionValue(0);
+  const backdropOpacity = useTransform(dragY, [0, 400], [1, 0]);
+
   if (!data) return null;
 
   const { financialReport } = data;
+
+  const handleDragEnd = (_: any, info: PanInfo) => {
+    const sheetHeight = sheetRef.current?.offsetHeight || 600;
+    const threshold = sheetHeight * 0.3;
+    if (info.offset.y > threshold || info.velocity.y > 500) {
+      onClose();
+    }
+  };
 
   return (
     <>
@@ -21,21 +34,28 @@ const FinancialReportSheet = ({ company, onClose }: FinancialReportSheetProps) =
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        style={{ opacity: backdropOpacity }}
         onClick={onClose}
         className="fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm"
       />
 
       {/* Sheet */}
       <motion.div
+        ref={sheetRef}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={{ top: 0, bottom: 0.6 }}
+        onDragEnd={handleDragEnd}
+        style={{ y: dragY }}
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="fixed inset-x-0 bottom-0 z-[80] bg-card rounded-t-3xl border-t border-border max-h-[85vh] overflow-y-auto"
+        className="fixed inset-x-0 bottom-0 z-[80] bg-card rounded-t-3xl border-t border-border max-h-[85vh] overflow-y-auto touch-pan-x"
       >
         {/* Handle */}
         <div className="sticky top-0 bg-card/95 backdrop-blur-xl rounded-t-3xl z-10 pt-3 pb-2 px-5">
-          <div className="w-10 h-1 rounded-full bg-muted-foreground/30 mx-auto mb-3" />
+          <div className="w-10 h-1 rounded-full bg-muted-foreground/30 mx-auto mb-3 cursor-grab" />
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-base font-bold font-['Space_Grotesk'] text-foreground">

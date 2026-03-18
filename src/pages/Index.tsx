@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useMemo } from "react";
+import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { companies, type CompanyData, type CompanyCategory } from "@/data/mockFinancials";
 import FinanceCard from "@/components/FinanceCard";
