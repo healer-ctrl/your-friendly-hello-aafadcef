@@ -233,7 +233,7 @@ const Index = () => {
         {detailCompany && (
           <CompanyDetailPage
             company={detailCompany}
-            onBack={() => setDetailCompany(null)}
+            onBack={closeDetail}
           />
         )}
       </AnimatePresence>
