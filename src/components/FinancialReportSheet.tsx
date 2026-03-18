@@ -10,13 +10,13 @@ interface FinancialReportSheetProps {
 }
 
 const FinancialReportSheet = ({ company, onClose }: FinancialReportSheetProps) => {
-  const data = deepDiveData[company.id];
   const sheetRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const dragY = useMotionValue(0);
   const backdropOpacity = useTransform(dragY, [0, 400], [1, 0]);
   const [isAtTop, setIsAtTop] = useState(true);
 
+  const data = deepDiveData[company.id];
   if (!data) return null;
 
   const { financialReport } = data;
