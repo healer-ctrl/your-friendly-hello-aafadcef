@@ -25,6 +25,7 @@ const filters: { label: string; value: FilterType }[] = [
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<TabType>("feed");
+  const [showSettings, setShowSettings] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
   const [reportCompany, setReportCompany] = useState<CompanyData | null>(null);
@@ -32,8 +33,10 @@ const Index = () => {
   const [detailCompany, setDetailCompany] = useState<CompanyData | null>(null);
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
 
+  const { useMockData } = useSettings();
+
   // Fetch real data from Supabase (falls back to mock)
-  const { data: companies = [], isLoading } = useFeedData();
+  const { data: companies = [], isLoading } = useFeedData(useMockData);
 
   const openDeepDive = useCallback((company: CompanyData) => {
     window.history.pushState({ overlay: "deepDive" }, "");
