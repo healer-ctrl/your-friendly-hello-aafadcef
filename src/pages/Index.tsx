@@ -249,6 +249,10 @@ const Index = () => {
           />
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {showSettings && <Settings onBack={() => setShowSettings(false)} />}
+      </AnimatePresence>
     </div>
   );
 };
