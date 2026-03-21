@@ -62,6 +62,7 @@ export function useFeedData(useMockData = false) {
   return useQuery({
     queryKey: ["feed", useMockData],
     queryFn: async (): Promise<FeedCompany[]> => {
+      if (useMockData) return mockCompanies as FeedCompany[];
       const { data, error } = await supabase
         .from("report_summaries")
         .select(`
