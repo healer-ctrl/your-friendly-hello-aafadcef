@@ -130,9 +130,14 @@ const Index = () => {
           <h1 className="text-lg font-bold font-['Space_Grotesk'] text-foreground tracking-tight">
             Fin<span className="text-primary">Pulse</span>
           </h1>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs text-muted-foreground font-medium">Live</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-xs text-muted-foreground font-medium">Live</span>
+            </div>
+            <button onClick={() => setShowSettings(true)} className="text-muted-foreground hover:text-foreground transition-colors">
+              <SettingsIcon className="w-4.5 h-4.5" />
+            </button>
           </div>
         </div>
 
