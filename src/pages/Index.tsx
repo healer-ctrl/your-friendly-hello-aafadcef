@@ -1,7 +1,9 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Settings as SettingsIcon } from "lucide-react";
 import { type CompanyData, type CompanyCategory } from "@/data/mockFinancials";
 import { useFeedData, type FeedCompany } from "@/hooks/useFeedData";
+import { useSettings } from "@/hooks/useSettings";
 import FinanceCard from "@/components/FinanceCard";
 import FinancialReportSheet from "@/components/FinancialReportSheet";
 import CompanyDeepDive from "@/components/CompanyDeepDive";
@@ -9,6 +11,7 @@ import CompanyDetailPage from "@/components/CompanyDetailPage";
 import BottomNav, { type TabType } from "@/components/BottomNav";
 import SearchTab from "@/components/SearchTab";
 import BookmarksTab from "@/components/BookmarksTab";
+import Settings from "@/pages/Settings";
 
 type FilterType = "all" | CompanyCategory;
 
