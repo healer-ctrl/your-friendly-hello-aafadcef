@@ -2,6 +2,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { X } from "lucide-react";
 import type { CompanyData } from "@/data/mockFinancials";
+import type { FeedCompany } from "@/hooks/useFeedData";
 import { deepDiveData } from "@/data/companyDeepDive";
 
 interface FinancialReportSheetProps {
