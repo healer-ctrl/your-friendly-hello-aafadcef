@@ -5,6 +5,8 @@ import { type CompanyData, type CompanyCategory } from "@/data/mockFinancials";
 import { useFeedData, type FeedCompany } from "@/hooks/useFeedData";
 import { useSettings } from "@/hooks/useSettings";
 import FinanceCard from "@/components/FinanceCard";
+import FeedSkeleton from "@/components/FeedSkeleton";
+import FeedEmptyState from "@/components/FeedEmptyState";
 import FinancialReportSheet from "@/components/FinancialReportSheet";
 import CompanyDeepDive from "@/components/CompanyDeepDive";
 import CompanyDetailPage from "@/components/CompanyDetailPage";
