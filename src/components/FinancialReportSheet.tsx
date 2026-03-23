@@ -129,7 +129,7 @@ const FinancialReportSheet = ({ company, onClose }: FinancialReportSheetProps) =
               <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 font-medium">
                 Quarterly Summary
               </h4>
-              <p className="text-sm leading-relaxed text-foreground/90">{financialReport.reportText}</p>
+              <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-line">{reportText}</p>
             </motion.div>
 
             {/* Balance sheet */}
