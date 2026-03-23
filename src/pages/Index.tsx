@@ -164,9 +164,9 @@ const Index = () => {
       {activeTab === "feed" && (
         <>
           {isLoading ? (
-            <div className="h-screen flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">Loading...</span>
-            </div>
+            <FeedSkeleton />
+          ) : filteredCompanies.length === 0 && !useMockData ? (
+            <FeedEmptyState onSwitchToMock={() => toggleMockData(true)} />
           ) : (
             <div
               ref={containerRef}
