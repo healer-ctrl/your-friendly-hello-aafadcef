@@ -164,7 +164,7 @@ const FinancialReportSheet = ({ company, onClose }: FinancialReportSheetProps) =
                 Key Ratios
               </h4>
               <div className="grid grid-cols-2 gap-2.5">
-                {financialReport.keyRatios.map((ratio) => (
+                {keyRatios.map((ratio) => (
                   <div
                     key={ratio.label}
                     className="rounded-xl bg-secondary/60 border border-border p-3 text-center"

@@ -33,7 +33,7 @@ const Index = () => {
   const [detailCompany, setDetailCompany] = useState<CompanyData | null>(null);
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
 
-  const { useMockData } = useSettings();
+  const { useMockData, toggleMockData } = useSettings();
 
   // Fetch real data from Supabase (falls back to mock)
   const { data: companies = [], isLoading } = useFeedData(useMockData);
