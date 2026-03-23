@@ -10,6 +10,7 @@ interface SettingsProps {
 
 const Settings = ({ onBack }: SettingsProps) => {
   const { useMockData, toggleMockData } = useSettings();
+  const { data: nseStatus } = useNseStatus();
 
   return (
     <motion.div
