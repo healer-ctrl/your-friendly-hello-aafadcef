@@ -142,7 +142,7 @@ const FinancialReportSheet = ({ company, onClose }: FinancialReportSheetProps) =
                 Balance Sheet Highlights
               </h4>
               <div className="flex flex-col gap-2">
-                {financialReport.balanceSheet.map((item) => (
+                {balanceSheet.map((item) => (
                   <div
                     key={item.label}
                     className="flex items-center justify-between py-2.5 px-3 rounded-xl bg-secondary/40 border border-border/50"
